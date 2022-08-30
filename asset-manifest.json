@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/cronometro-alura/static/css/main.8eb2fbfa.css",
+    "main.js": "/cronometro-alura/static/js/main.2095f549.js",
+    "static/media/check-mark.svg": "/cronometro-alura/static/media/check-mark.53f24c0a28e150404896.svg",
+    "index.html": "/cronometro-alura/index.html",
+    "main.8eb2fbfa.css.map": "/cronometro-alura/static/css/main.8eb2fbfa.css.map",
+    "main.2095f549.js.map": "/cronometro-alura/static/js/main.2095f549.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8eb2fbfa.css",
+    "static/js/main.2095f549.js"
+  ]
+}
