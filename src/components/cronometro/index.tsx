@@ -10,25 +10,28 @@ interface Props{
     finalizarTarefa:()=>void
 }
 export default function Cronometro({selecionado, finalizarTarefa}:Props){
-    // console.log(TempoParaSegundos(selecionado))
     const [tempo, setTempo] = useState<number>()
+    const [isPaused, setIsPaused] = useState<boolean>(true)
+
     useEffect(()=>{
         if(selecionado?.tempo){
             setTempo(TempoParaSegundos(selecionado.tempo))
         }
     },[selecionado])
-
-    function regressiva(contador: number = 0){
-        setTimeout(() => {
-            if(contador>0){
-                setTempo(contador - 1)
-                return regressiva(contador - 1)
-            }
-            else{
+    
+    useEffect(()=>{
+        let r = setTimeout(() => {
+            if(!tempo){
                 finalizarTarefa()
-            }
-        }, 1000);
-    }
+                setIsPaused(true)
+                return
+            } 
+            if(isPaused) return
+            setTempo(tempo - 1)
+        }, 1000)
+
+    },[tempo, isPaused])
+    
     return (
         <div className={styles.cronometro}>
             <p className={styles.relogioTitulo}>Escolha um card e inicie o cronometro</p>
@@ -36,7 +39,7 @@ export default function Cronometro({selecionado, finalizarTarefa}:Props){
                 <Relogio tempo={tempo}/>
 
             </div>
-            <Botao onClick={()=>regressiva(tempo)}>Iniciar</Botao>
+            <Botao onClick={()=>setIsPaused(!isPaused)}>{isPaused?"Iniciar":"Parar"}</Botao>
         </div>
     )
 }
