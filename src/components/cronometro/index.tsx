@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, useRef} from "react"
 import Botao from "../botao/index"
 import Relogio from "./Relogio/index"
 import styles from "./Cronometro.module.scss"
@@ -12,6 +12,7 @@ interface Props{
 export default function Cronometro({selecionado, finalizarTarefa}:Props){
     const [tempo, setTempo] = useState<number>()
     const [isPaused, setIsPaused] = useState<boolean>(true)
+    const referencia = useRef<number | ReturnType<typeof setTimeout>>()
 
     useEffect(()=>{
         if(selecionado?.tempo){
@@ -20,14 +21,15 @@ export default function Cronometro({selecionado, finalizarTarefa}:Props){
     },[selecionado])
     
     useEffect(()=>{
-        let r = setTimeout(() => {
-            if(!tempo){
-                finalizarTarefa()
-                setIsPaused(true)
-                return
-            } 
-            if(isPaused) return
-            setTempo(tempo - 1)
+        clearTimeout(referencia.current)
+        referencia.current = setTimeout(() => {
+        if(!tempo){
+            finalizarTarefa()
+            setIsPaused(true)
+            return
+        } 
+        if(isPaused) return    
+        setTempo(tempo - 1)
         }, 1000)
 
     },[tempo, isPaused])
